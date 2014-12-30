@@ -1,32 +1,13 @@
 (ns exiled.core
-  (:use [vorce.procedural.simplex :only (noise)]
-        [clojure.algo.generic.math-functions :only (log)])
+  (:use [exiled.worldgen :only (gen-world-tile))
   (:require [clojure.data.json :as json]
             [clojure.string :as s])
   (:import [org.webbitserver WebServer WebServers WebSocketHandler]
            [org.webbitserver.handler StaticFileHandler])
   (:gen-class))
-  
-(defn- clamp [x]
-  (if (> x 1)
-    1
-    (if (< x 0)
-      0
-      x)))
-  
-(defn- logit [t]
-  (log (/ t (- 1 t))))
 
-(defn- get-world-height [x y]
-  (let [scale 0.1
-        x (* x scale)
-        y (* y scale)]
-    (noise x y)))
-
-(defn- get-world-tile [x y]
-  {:x x
-   :y y
-   :height (get-world-height x y)})
+(def get-world-tile [x y]
+  (memoize gen-world-tile))
    
 (defn- get-world-tiles [tiles]
   (map (fn [tile]
