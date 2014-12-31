@@ -1,12 +1,12 @@
 (ns exiled.core
-  (:use [exiled.worldgen :only (gen-world-tile))
+  (:use [exiled.worldgen :only (gen-world-tile)])
   (:require [clojure.data.json :as json]
             [clojure.string :as s])
   (:import [org.webbitserver WebServer WebServers WebSocketHandler]
            [org.webbitserver.handler StaticFileHandler])
   (:gen-class))
 
-(def get-world-tile [x y]
+(def get-world-tile
   (memoize gen-world-tile))
    
 (defn- get-world-tiles [tiles]
