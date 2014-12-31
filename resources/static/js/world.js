@@ -2,11 +2,31 @@
 
 /* TODO make a Tile class */
 
-function copyTile(dest, src) {
-    dest.x = src.x;
-    dest.y = src.y;
-    dest.height = src.height;
-}
+var Tile = (function() {
+    
+    function Tile(tile) {
+        if(tile) {
+            this.copyFrom(tile);
+        } else {
+            this.x = NaN;
+            this.y = NaN;
+            this.height = NaN;
+            this.kind = "";
+    }
+    
+    Tile.prototype.clone = function() {
+        return new Tile(this);
+    };
+    
+    Tile.prototype.copyFrom(tile) {
+        this.x = tile.x;
+        this.y = tile.y;
+        this.height = tile.height;
+        this.kind = tile.kind;
+    }
+    
+    return Tile;
+});
 
 /* We maintain a mapping of location -> tile */
 var World = (function() {
@@ -28,12 +48,12 @@ var World = (function() {
           },
           events: { 
             gottile: function(e) {
-              self._setTile(e.data.tile);
+              self._setTile(new Tile(e.data.tile));
               var fn = self._onupdate;
               fn();
             },
             gottiles: function(e) {
-              self._setTiles(e.data.tiles);
+              self._setTiles(new Tile(e.data.tiles));
               var fn = self._onupdate;
               fn();
             }
@@ -52,7 +72,7 @@ var World = (function() {
     /* Find all (known) tiles in the given area */
     World.prototype.search = function(rect) {
         return this._tiles.search(rect);
-    }
+    };
     
     /* Set the callback to be called when we have gotten new tiles */
     World.prototype.onUpdate = function(cb) {
@@ -94,7 +114,7 @@ var World = (function() {
     World.prototype._setTile = function(tile) {
         var gottile = this.getTile(tile.x, tile.y);
         if(gottile) {
-            copyTile(gottile, tile);
+            gottile.copyFrom(tile);
         } else {
             this._tiles.insert(
                 { x:tile.x, y:tile.y, w:1, h:1 },
