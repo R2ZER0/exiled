@@ -16,10 +16,10 @@
         y (/ b 2)]
           y))
           
-(defn- height2kind [height]
+(defn- height2kind [h]
   (cond
-    (> n 204) "mountain"
-    (> n 40)  "grass"
+    (> h 204) "mountain"
+    (> h 40)  "grass"
     :else     "water"))
 
 (defn- get-world-height [x y]
