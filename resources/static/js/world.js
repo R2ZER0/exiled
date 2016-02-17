@@ -1,7 +1,5 @@
 /* World Manager */
 
-/* TODO make a Tile class */
-
 var Tile = (function() {
     
     function Tile(tile) {
@@ -12,21 +10,26 @@ var Tile = (function() {
             this.y = NaN;
             this.height = NaN;
             this.kind = "";
+        }
     }
     
     Tile.prototype.clone = function() {
         return new Tile(this);
     };
     
-    Tile.prototype.copyFrom(tile) {
+    Tile.prototype.copyFrom = function(tile) {
         this.x = tile.x;
         this.y = tile.y;
         this.height = tile.height;
         this.kind = tile.kind;
-    }
+    };
+    
+    Tile.newFrom = function(tile) {
+        return new Tile(tile);
+    };
     
     return Tile;
-});
+})();
 
 /* We maintain a mapping of location -> tile */
 var World = (function() {
@@ -53,7 +56,7 @@ var World = (function() {
               fn();
             },
             gottiles: function(e) {
-              self._setTiles(new Tile(e.data.tiles));
+              self._setTiles(e.data.tiles.map(Tile.newFrom));
               var fn = self._onupdate;
               fn();
             }

@@ -1,13 +1,14 @@
 (ns exiled.worldgen
   (:use [vorce.procedural.simplex :only (noise)]
-        [clojure.algo.generic.math-functions :only (log)]))
+        [clojure.algo.generic.math-functions :only (log)]
+        [clojure.math.numeric-tower :only (floor)]))
         
 (defn- clamp [x]
   (if (> x 1)
     1
     (if (< x 0)
       0
-      x)))  
+      x)))
   
 ; (((x*2)-1)^3+1)/2
 (defn- smooth [x]
@@ -23,9 +24,10 @@
     :else     "water"))
 
 (defn- get-world-height [x y]
-  (* 255
-    (let [s 0.05]
-      (noise (* x s) (* y s)))))
+  (let [s 0.05
+        x (* x s)
+        y (* y s)]
+    (-> (noise x y) (* 255) floor int)))
 
 (defn gen-world-tile [x y]
   (let [height (get-world-height x y)

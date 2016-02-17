@@ -11,11 +11,7 @@ var grassStyle = "rgb(0,255,0)";
 var peakStyle  = "rgb(128,128,128)";
 
 function height2style(height) {
-  var norm = Math.floor(255 * height);
-//   if(norm < 75) { return waterStyle; }
-//   else if(norm < 200) { return grassStyle; }
-//   else { return peakStyle; }
-  return "rgb(" + norm + "," + norm + "," + norm + ")";
+  return "rgb(" + height + "," + height + "," + height + ")";
 }
 
 function drawTileAt(x, y, tile) {

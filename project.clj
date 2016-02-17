@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.webbitserver/webbit "0.4.3"]
                  [org.clojure/data.json "0.1.2"]
-                 [org.clojure/algo.generic "0.1.2"]]
+                 [org.clojure/algo.generic "0.1.2"]
+                 [org.clojure/math.numeric-tower "0.0.4"]]
   :main ^:skip-aot exiled.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
